@@ -14,8 +14,8 @@ const JobSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["interview", "declined", "pending"],
-      default: "pending",
+      enum: ["Interview", "Accepted", "Declined", "Pending"],
+      default: "Pending",
     },
     createdBy: {
       type: mongoose.Types.ObjectId,
@@ -24,7 +24,7 @@ const JobSchema = new mongoose.Schema(
     },
     jobType: {
       type: String,
-      enum: ["full-time", "part-time", "remote", "internship"],
+      enum: ["Full-time", "Part-time", "Internship"],
       default: "full-time",
     },
     jobLocation: {
