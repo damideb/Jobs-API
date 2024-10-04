@@ -9,7 +9,6 @@ const {
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
   res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
-  res.json("get all jobs");
 };
 
 const getJob = async (req, res) => {
@@ -26,7 +25,7 @@ const getJob = async (req, res) => {
 };
 
 const createJob = async (req, res) => {
-  req.body.createdBy = req.user.userId;
+  req.body.createdBy = req.user.userId; // user obj is passed from verfiyJWT middleware
   const job = await Job.create(req.body);
   res.status(StatusCodes.CREATED).json({ job });
 };
@@ -35,10 +34,10 @@ const updateJob = async (req, res) => {
   const { user, params, body } = req;
   const userId = user.userId;
   const jobId = params.id;
-  const { company, position } = body;
+  const { company, position, jobType, jobLocation } = body;
 
-  if (company === "" || position === "") {
-    throw new BadRequestError("Company and position fields are required");
+  if (company === "" || position === "" || jobType === "" || jobLocation ==="") {
+    throw new BadRequestError("Company, position, jobType and location fields are required");
   }
 
   if (!job) {
