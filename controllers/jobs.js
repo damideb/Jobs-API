@@ -34,10 +34,10 @@ const updateJob = async (req, res) => {
   const { user, params, body } = req;
   const userId = user.userId;
   const jobId = params.id;
-  const { company, position, jobType, jobLocation } = body;
+  const { company, position } = body;
 
-  if (company === "" || position === "" || jobType === "" || jobLocation ==="") {
-    throw new BadRequestError("Company, position, jobType and location fields are required");
+  if (company === "" || position === "") {
+    throw new BadRequestError("Company and position fields are required");
   }
 
   if (!job) {
