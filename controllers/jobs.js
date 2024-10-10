@@ -7,8 +7,26 @@ const {
 } = require("../errors");
 
 const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
-  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
+  const { company, status, jobType, page } = req.query;
+
+  const queryObj = {
+    createdBy: req.user.userId,
+  };
+  if (company) queryObj.company = company;
+  if (status) queryObj.status = status;
+  if (jobType) queryObj.jobType = jobType;
+
+  let result = Job.find(queryObj).sort("createdAt");
+
+  const pageNumber = Number(page) || 1;
+  const limit = 10;
+  const skip = (pageNumber - 1) * limit;
+  result = result.skip(skip).limit(limit);
+  const jobs = await result;
+  const totalJobs = await Job.countDocuments(queryObj) // returns the number of documents that match the query
+  const numPages = Math.ceil(totalJobs / limit)
+
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length, numOfPages:numPages });
 };
 
 const getJob = async (req, res) => {
@@ -55,8 +73,6 @@ const updateJob = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ job });
 };
-
-
 
 const deleteJob = async (req, res) => {
   const { user, params } = req;
