@@ -26,7 +26,7 @@ const getAllJobs = async (req, res) => {
   const totalJobs = await Job.countDocuments(queryObj) // returns the number of documents that match the query
   const numPages = Math.ceil(totalJobs / limit)
 
-  res.status(StatusCodes.OK).json({ jobs, count: jobs.length, numOfPages:numPages });
+  res.status(StatusCodes.OK).json({ jobs, count: totalJobs, numOfPages:numPages });
 };
 
 const getJob = async (req, res) => {
