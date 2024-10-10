@@ -13,8 +13,8 @@ const getAllJobs = async (req, res) => {
     createdBy: req.user.userId,
   };
   if (company) queryObj.company = company;
-  if (status) queryObj.status = status;
-  if (jobType) queryObj.jobType = jobType;
+  if (status  && status !=='All') queryObj.status = status;
+  if (jobType && jobType !== 'All') queryObj.jobType = jobType;
 
   let result = Job.find(queryObj).sort("createdAt");
 
