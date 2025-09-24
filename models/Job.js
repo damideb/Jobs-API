@@ -17,6 +17,7 @@ const JobSchema = new mongoose.Schema(
       enum: ["Interview", "Accepted", "Rejected", "Pending"],
       default: "Pending",
     },
+    
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",

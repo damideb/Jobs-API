@@ -13,8 +13,8 @@ const getAllJobs = async (req, res) => {
     createdBy: req.user.userId,
   };
   if (company) queryObj.company = company;
-  if (status  && status !=='All') queryObj.status = status;
-  if (jobType && jobType !== 'All') queryObj.jobType = jobType;
+  if (status && status !== "All") queryObj.status = status;
+  if (jobType && jobType !== "All") queryObj.jobType = jobType;
 
   let result = Job.find(queryObj).sort("createdAt");
 
@@ -23,10 +23,12 @@ const getAllJobs = async (req, res) => {
   const skip = (pageNumber - 1) * limit;
   result = result.skip(skip).limit(limit);
   const jobs = await result;
-  const totalJobs = await Job.countDocuments(queryObj) // returns the number of documents that match the query
-  const numPages = Math.ceil(totalJobs / limit)
+  const totalJobs = await Job.countDocuments(queryObj); // returns the number of documents that match the query
+  const numPages = Math.ceil(totalJobs / limit);
 
-  res.status(StatusCodes.OK).json({ jobs, count: totalJobs, numOfPages:numPages });
+  res
+    .status(StatusCodes.OK)
+    .json({ jobs, count: totalJobs, numOfPages: numPages });
 };
 
 const getJob = async (req, res) => {

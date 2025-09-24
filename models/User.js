@@ -23,6 +23,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "Nigeria",
   },
+ 
 });
 
 // this middleware run s before a new document is created
